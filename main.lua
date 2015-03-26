@@ -98,13 +98,13 @@ function love.keyreleased(key)
 end
 
 function keyHandle(key,boo)
-	if key == "up" then
+	if key == "w" then
 		MOVE.up=boo
-    elseif key == "down" then
+    elseif key == "s" then
 		MOVE.down=boo
-    elseif key == "left" then
+    elseif key == "a" then
     	MOVE.left=boo
-    elseif key == "right" then
+    elseif key == "d" then
     	MOVE.right=boo
     end
 end

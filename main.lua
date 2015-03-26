@@ -9,11 +9,9 @@ function love.load()
 		angle = 90,
 		dead = false
 	}
-createShader()
-	lightWorld = love.light.newWorld()
-    --lightWorld.setAmbientColor(60, 0, 0) -- optional
+	createShader()
 
-    -- create light (x, y, red, green, blue, range)
+	lightWorld = love.light.newWorld()
     lightMouse = lightWorld.newLight(0, 0, 255, 255, 255, 300)
     lightMouse.setGlowStrength(0.1) -- optional
 
@@ -24,7 +22,7 @@ createShader()
 
 	boo=false
 	delta=0
-	FLICK=0.5
+	flick_rand()
 end
 
 function createShader()
@@ -49,13 +47,12 @@ function createShader()
 			return color * Texel(texture, tc) * mix(1.0, rand(tc+vec2(noise)), opacity);
 		}
 	]]
-	shader:send("opacity",.3)
-	shader:send("grainsize",1)
+	shader:send("opacity",.9)
+	shader:send("grainsize",10)
 
-	shader:send("noise",3)
+	shader:send("noise",10)
 	shader:send("noisetex", noisetex)
 	shader:send("tex_ratio", {love.graphics.getWidth() / noisetex:getWidth(), love.graphics.getHeight() / noisetex:getHeight()})
-	flick_rand()
 end
 
 function love.draw()
@@ -90,26 +87,22 @@ function print_FPS()
 end
 
 function love.keypressed(key)
-    if key == "up" then
-        MOVE.up=true
-    elseif key == "down" then
-		MOVE.down=true
-    elseif key == "left" then
-        MOVE.left=true
-    elseif key == "right" then
-        MOVE.right=true
-    end
+	keyHandle(key, true)
 end
 
 function love.keyreleased(key)
-    if key == "up" then
-        MOVE.up=false
+	keyHandle(key, false)
+end
+
+function keyHandle(key,boo)
+	if key == "up" then
+        MOVE.up=boo
     elseif key == "down" then
-		MOVE.down=false
+		MOVE.down=boo
     elseif key == "left" then
-        MOVE.left=false
+        MOVE.left=boo
     elseif key == "right" then
-        MOVE.right=false
+        MOVE.right=boo
     end
 end
 

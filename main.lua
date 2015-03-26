@@ -24,6 +24,7 @@ createShader()
 
 	boo=false
 	delta=0
+	FLICK=0.5
 end
 
 function createShader()
@@ -54,6 +55,7 @@ function createShader()
 	shader:send("noise",3)
 	shader:send("noisetex", noisetex)
 	shader:send("tex_ratio", {love.graphics.getWidth() / noisetex:getWidth(), love.graphics.getHeight() / noisetex:getHeight()})
+	flick_rand()
 end
 
 function love.draw()
@@ -73,9 +75,14 @@ function love.draw()
     	print_FPS()
     if boo then
 		    love.graphics.setShader()
+		    flick_rand()
 	end
 
 	lightWorld.drawShine()
+end
+
+function flick_rand()
+	FLICK=math.random();
 end
 
 function print_FPS()
@@ -133,7 +140,7 @@ function love.update(dt)
 	lightMouse.setPosition(player.x, player.y)
 	lightMouse.setAngle(cone)
 	lightMouse.setDirection(math.pi/2-player.angle)
-	if delta>0.5 then
+	if delta>FLICK then
 		boo=true
 		delta=0
 	else

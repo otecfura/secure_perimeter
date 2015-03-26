@@ -99,13 +99,13 @@ end
 
 function keyHandle(key,boo)
 	if key == "up" then
-        MOVE.up=boo
+		MOVE.up=boo
     elseif key == "down" then
 		MOVE.down=boo
     elseif key == "left" then
-        MOVE.left=boo
+    	MOVE.left=boo
     elseif key == "right" then
-        MOVE.right=boo
+    	MOVE.right=boo
     end
 end
 
@@ -117,17 +117,25 @@ function computeAngle()
 end
 
 function updateMove(key)
-    if key.up  then
-        player.y = player.y - 1
+    if key.up then
+    	if player.y>0 then
+    		player.y = player.y - 1
+    	end
     end
     if key.down then
-        player.y = player.y + 1
+    	if player.y<love.graphics.getHeight() then
+        	player.y = player.y + 1
+        end
     end
     if key.left then
-        player.x = player.x - 1
+    	if player.y>0 then
+        	player.x = player.x - 1
+        end
     end
     if key.right then
-        player.x = player.x + 1
+    	if player.x<love.graphics.getWidth() then
+        	player.x = player.x + 1
+    	end
     end
 end
 

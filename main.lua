@@ -74,9 +74,9 @@ function love.draw()
     print_FPS()
 
     if boo then
-		    love.graphics.setShader()
-		    flick_rand()
-	end
+    	love.graphics.setShader()
+    	flick_rand()
+    end
 
 	lightWorld.drawShine()
 end

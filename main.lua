@@ -65,11 +65,14 @@ function love.draw()
 
 	love.graphics.setColor(255, 255, 255)
     love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
-		updateMove(MOVE)
+
+    updateMove(MOVE)
 	computeAngle()
-		    love.graphics.draw(player.image, player.x, player.y,player.angle,1/2,1/2,player.image:getHeight(),player.image:getWidth()/2)
+	love.graphics.draw(player.image, player.x, player.y,player.angle,1/2,1/2,player.image:getHeight(),player.image:getWidth()/2)
     lightWorld.drawShadow()
-    	print_FPS()
+
+    print_FPS()
+
     if boo then
 		    love.graphics.setShader()
 		    flick_rand()

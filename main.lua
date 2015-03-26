@@ -9,7 +9,7 @@ function love.load()
 		angle = 90,
 		dead = false
 	}
-
+createShader()
 	lightWorld = love.light.newWorld()
     --lightWorld.setAmbientColor(60, 0, 0) -- optional
 
@@ -21,6 +21,12 @@ function love.load()
 
 	player.image = love.graphics.newImage("images/hand.png")
 
+
+	boo=false
+	delta=0
+end
+
+function createShader()
 	noisetex = love.image.newImageData(100,100)
 	noisetex:mapPixel(function()
 		local l = love.math.random() * 255
@@ -48,32 +54,32 @@ function love.load()
 	shader:send("noise",3)
 	shader:send("noisetex", noisetex)
 	shader:send("tex_ratio", {love.graphics.getWidth() / noisetex:getWidth(), love.graphics.getHeight() / noisetex:getHeight()})
-	boo=false
-	delta=0
 end
 
 function love.draw()
 	lightWorld.update()
+
 	if boo then
 		love.graphics.setShader(shader)
 	end
 
-	updateMove(MOVE)
-	computeAngle()
+
 	love.graphics.setColor(255, 255, 255)
     love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
-    love.graphics.draw(player.image, player.x, player.y,player.angle,1/2,1/2,player.image:getHeight(),player.image:getWidth()/2)
+		updateMove(MOVE)
+	computeAngle()
+		    love.graphics.draw(player.image, player.x, player.y,player.angle,1/2,1/2,player.image:getHeight(),player.image:getWidth()/2)
     lightWorld.drawShadow()
     	print_FPS()
     if boo then
 		    love.graphics.setShader()
 	end
+
 	lightWorld.drawShine()
 end
 
 function print_FPS()
 	love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 0, 0)
-	love.graphics.print("Angle: "..tostring(player.angle), 0, 10)
 end
 
 function love.keypressed(key)
@@ -123,7 +129,7 @@ function updateMove(key)
 end
 
 function love.update(dt)
-	cone=10
+	cone=0.4
 	lightMouse.setPosition(player.x, player.y)
 	lightMouse.setAngle(cone)
 	lightMouse.setDirection(math.pi/2-player.angle)

@@ -2,13 +2,17 @@ require "postshader"
 require "light"
 
 function love.load()
+	width=love.graphics.getWidth()
+	height=love.graphics.getHeight()
+
 	player = {
 		image = {},
-		x = love.graphics.getWidth()/2,
-		y = love.graphics.getHeight()/2,
+		x = width/2,
+		y = height/2,
 		angle = 90,
 		dead = false
 	}
+
 	createShader()
 
 	lightWorld = love.light.newWorld()
@@ -38,7 +42,7 @@ function createShader()
 
 	shader:send("noise",10)
 	shader:send("noisetex", noisetex)
-	shader:send("tex_ratio", {love.graphics.getWidth() / noisetex:getWidth(), love.graphics.getHeight() / noisetex:getHeight()})
+	shader:send("tex_ratio", {width / noisetex:getWidth(), height/ noisetex:getHeight()})
 end
 
 function love.draw()
@@ -50,7 +54,7 @@ function love.draw()
 
 
 	love.graphics.setColor(255, 255, 255)
-    love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+    love.graphics.rectangle("fill", 0, 0, width, height)
 
     updateMove(MOVE)
 	computeAngle()

@@ -26,14 +26,14 @@ LOVE_POSTSHADER_BUFFER_RENDER = love.graphics.newCanvas()
 LOVE_POSTSHADER_BUFFER_BACK = love.graphics.newCanvas()
 LOVE_POSTSHADER_LAST_BUFFER = nil
 
-LOVE_POSTSHADER_BLURV = love.graphics.newShader("shader/blurv.glsl")
-LOVE_POSTSHADER_BLURH = love.graphics.newShader("shader/blurh.glsl")
-LOVE_POSTSHADER_CONTRAST = love.graphics.newShader("shader/contrast.glsl")
-LOVE_POSTSHADER_CHROMATIC_ABERRATION = love.graphics.newShader("shader/chromatic_aberration.glsl")
-LOVE_POSTSHADER_FOUR_COLOR = love.graphics.newShader("shader/four_colors.glsl")
-LOVE_POSTSHADER_MONOCHROM = love.graphics.newShader("shader/monochrom.glsl")
-LOVE_POSTSHADER_SCANLINES = love.graphics.newShader("shader/scanlines.glsl")
-LOVE_POSTSHADER_TILT_SHIFT = love.graphics.newShader("shader/tilt_shift.glsl")
+LOVE_POSTSHADER_BLURV = love.graphics.newShader("libs/light/shader/blurv.glsl")
+LOVE_POSTSHADER_BLURH = love.graphics.newShader("libs/light/shader/blurh.glsl")
+LOVE_POSTSHADER_CONTRAST = love.graphics.newShader("libs/light/shader/contrast.glsl")
+LOVE_POSTSHADER_CHROMATIC_ABERRATION = love.graphics.newShader("libs/light/shader/chromatic_aberration.glsl")
+LOVE_POSTSHADER_FOUR_COLOR = love.graphics.newShader("libs/light/shader/four_colors.glsl")
+LOVE_POSTSHADER_MONOCHROM = love.graphics.newShader("libs/light/shader/monochrom.glsl")
+LOVE_POSTSHADER_SCANLINES = love.graphics.newShader("libs/light/shader/scanlines.glsl")
+LOVE_POSTSHADER_TILT_SHIFT = love.graphics.newShader("libs/light/shader//tilt_shift.glsl")
 
 love.postshader = {}
 

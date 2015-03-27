@@ -1,5 +1,5 @@
-require "postshader"
-require "light"
+require 'libs.light.light'
+require 'libs.light.postshader'
 
 function love.load()
 	width=love.graphics.getWidth()
@@ -36,7 +36,7 @@ function createShader()
 		return l,l,l,l
 	end)
 	noisetex = love.graphics.newImage(noisetex)
-	shader = love.graphics.newShader("shader/grain.glsl")
+	shader = love.graphics.newShader("shaders/grain.glsl")
 	shader:send("opacity",.9)
 	shader:send("grainsize",10)
 

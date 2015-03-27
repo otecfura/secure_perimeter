@@ -30,8 +30,8 @@ LOVE_LIGHT_BODY = nil
 LOVE_LIGHT_LAST_BUFFER = nil
 LOVE_LIGHT_SHADOW_GEOMETRY = nil
 
-LOVE_LIGHT_BLURV = love.graphics.newShader("shader/blurv.glsl")
-LOVE_LIGHT_BLURH = love.graphics.newShader("shader/blurh.glsl")
+LOVE_LIGHT_BLURV = love.graphics.newShader("libs/light/shader/blurv.glsl")
+LOVE_LIGHT_BLURH = love.graphics.newShader("libs/light/shader/blurh.glsl")
 LOVE_LIGHT_BLURV:send("screen", {love.window.getWidth(), love.window.getHeight()})
 LOVE_LIGHT_BLURH:send("screen", {love.window.getWidth(), love.window.getHeight()})
 
@@ -69,14 +69,14 @@ function love.light.newWorld()
 	o.refractionStrength = 8.0
 	o.pixelShadow = love.graphics.newCanvas()
 	o.pixelShadow2 = love.graphics.newCanvas()
-	o.shader = love.graphics.newShader("shader/poly_shadow.glsl")
-	o.glowShader = love.graphics.newShader("shader/glow.glsl")
-	o.normalShader = love.graphics.newShader("shader/normal.glsl")
-	o.normalInvertShader = love.graphics.newShader("shader/normal_invert.glsl")
-	o.materialShader = love.graphics.newShader("shader/material.glsl")
-	o.refractionShader = love.graphics.newShader("shader/refraction.glsl")
+	o.shader = love.graphics.newShader("libs/light/shader/poly_shadow.glsl")
+	o.glowShader = love.graphics.newShader("libs/light/shader/glow.glsl")
+	o.normalShader = love.graphics.newShader("libs/light/shader/normal.glsl")
+	o.normalInvertShader = love.graphics.newShader("libs/light/shader/normal_invert.glsl")
+	o.materialShader = love.graphics.newShader("libs/light/shader/material.glsl")
+	o.refractionShader = love.graphics.newShader("libs/light/shader/refraction.glsl")
 	o.refractionShader:send("screen", {love.window.getWidth(), love.window.getHeight()})
-	o.reflectionShader = love.graphics.newShader("shader/reflection.glsl")
+	o.reflectionShader = love.graphics.newShader("libs/light/shader/reflection.glsl")
 	o.reflectionShader:send("screen", {love.window.getWidth(), love.window.getHeight()})
 	o.reflectionStrength = 16.0
 	o.reflectionVisibility = 1.0

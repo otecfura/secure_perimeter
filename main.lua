@@ -4,19 +4,25 @@ require 'libs.light.postshader'
 function love.load()
 	width=love.graphics.getWidth()
 	height=love.graphics.getHeight()
+	cone=0.4
 
 	player = {
 		image = {},
 		x = width/2,
 		y = height/2,
 		angle = 90,
-		dead = false
+		dead = false,
+		colorPosition = 1
 	}
+
+	light = {{255,255,255},{255,0,0},{0,255,0},{0,0,255},{0,0,0}}
+
 
 	createShader()
 
 	lightWorld = love.light.newWorld()
     lightMouse = lightWorld.newLight(0, 0, 255, 255, 255, 300)
+    setColorOfLight()
     lightMouse.setGlowStrength(0.1) -- optional
 
 	MOVE = { up=false, down=false, left=false, right=false }
@@ -27,6 +33,10 @@ function love.load()
 	boo=false
 	delta=0
 	flick_rand()
+end
+
+function setColorOfLight()
+	lightMouse.setColor(light[player.colorPosition][1],light[player.colorPosition][2],light[player.colorPosition][3])
 end
 
 function createShader()
@@ -56,9 +66,8 @@ function love.draw()
 	love.graphics.setColor(255, 255, 255)
     love.graphics.rectangle("fill", 0, 0, width, height)
 
-    updateMove(MOVE)
-	computeAngle()
-	love.graphics.draw(player.image, player.x, player.y,player.angle,1/2,1/2,player.image:getHeight(),player.image:getWidth()/2)
+
+	love.graphics.draw(player.image, player.x, player.y,player.angle,1/5,1/5,player.image:getHeight(),player.image:getWidth()/2)
     lightWorld.drawShadow()
 
     print_FPS()
@@ -81,6 +90,23 @@ end
 
 function love.keypressed(key)
 	keyHandle(key, true)
+	if key== "f" then
+    	player.light = not player.light
+    end
+end
+
+function love.mousepressed( x, y, button )
+	if button == "wu" then
+		if player.colorPosition < table.getn(light) then
+			player.colorPosition=player.colorPosition+1
+    		setColorOfLight()
+    	end
+  	elseif button == "wd" then
+  		if player.colorPosition > 1 then
+    		player.colorPosition=player.colorPosition-1
+    		setColorOfLight()
+    	end
+    end
 end
 
 function love.keyreleased(key)
@@ -118,7 +144,7 @@ function updateMove(key)
         end
     end
     if key.left then
-    	if player.y>0 then
+    	if player.x>0 then
         	player.x = player.x - 1
         end
     end
@@ -130,9 +156,11 @@ function updateMove(key)
 end
 
 function love.update(dt)
-	cone=0.4
+	updateMove(MOVE)
+	computeAngle()
 	lightMouse.setPosition(player.x, player.y)
 	lightMouse.setAngle(cone)
+	lightMouse.setRange(100)
 	lightMouse.setDirection(math.pi/2-player.angle)
 	if delta>FLICK then
 		boo=true

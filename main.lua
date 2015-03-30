@@ -15,7 +15,13 @@ function love.load()
 		colorPosition = 1
 	}
 
-	light = {{255,255,255},{255,0,0},{0,255,0},{0,0,255},{0,0,0}}
+
+
+	enemies= {
+		{x=player.x+10,y=player.y+10, angle=0}
+	}
+
+	light = {{255,255,255},{255,0,0},{0,255,0},{0,0,255}}
 
 
 	createShader()
@@ -28,6 +34,7 @@ function love.load()
 	MOVE = { up=false, down=false, left=false, right=false }
 
 	player.image = love.graphics.newImage("images/hand.png")
+	enemyImage = love.graphics.newImage("images/spider.png")
 
 
 	boo=false
@@ -68,6 +75,11 @@ function love.draw()
 
 
 	love.graphics.draw(player.image, player.x, player.y,player.angle,1/5,1/5,player.image:getHeight(),player.image:getWidth()/2)
+
+	for index,value in ipairs(enemies) do
+		love.graphics.draw(enemyImage, value.x, value.y,enemies[index].angle,1/5,1/5,enemyImage:getHeight(),enemyImage:getWidth()/2)
+	end
+
     lightWorld.drawShadow()
 
     print_FPS()
@@ -132,6 +144,14 @@ function computeAngle()
 	player.angle = math.atan2(dy,dx)
 end
 
+function computeAngleEnemies()
+for index,value in ipairs(enemies) do
+	local dx = enemies[index].x - player.x
+	local dy = enemies[index].y - player.y
+	enemies[index].angle = math.atan2(dy,dx)
+end
+end
+
 function updateMove(key)
     if key.up then
     	if player.y>0 then
@@ -158,6 +178,7 @@ end
 function love.update(dt)
 	updateMove(MOVE)
 	computeAngle()
+	computeAngleEnemies()
 	lightMouse.setPosition(player.x, player.y)
 	lightMouse.setAngle(cone)
 	lightMouse.setRange(100)

@@ -17,10 +17,6 @@ function love.load()
 
 
 
-	enemies= {
-		{x=player.x+10,y=player.y+10, angle=0}
-	}
-
 	light = {{255,255,255},{255,0,0},{0,255,0},{0,0,255}}
 
 
@@ -35,6 +31,25 @@ function love.load()
 
 	player.image = love.graphics.newImage("images/hand.png")
 	enemyImage = love.graphics.newImage("images/spider.png")
+
+	enemies= {
+		{
+		x=player.x+60,
+		y=player.y+50,
+		angle=0,
+		rectangle={},
+		setPosition = function (xNew,yNew)
+			x=xNew
+			y=yNew
+			rectangle.setPosition(xNew,yNew)
+		end
+	}
+	}
+
+	for index,value in ipairs(enemies) do
+		enemies[index].rectangle=lightWorld.newCircle(enemies[1].x, enemies[1].y, enemyImage:getWidth()/30,enemyImage:getWidth()/30);
+	end
+
 
 
 	boo=false
@@ -73,14 +88,15 @@ function love.draw()
 	love.graphics.setColor(255, 255, 255)
     love.graphics.rectangle("fill", 0, 0, width, height)
 
+    lightWorld.drawShadow()
 
 	love.graphics.draw(player.image, player.x, player.y,player.angle,1/5,1/5,player.image:getHeight(),player.image:getWidth()/2)
 
 	for index,value in ipairs(enemies) do
-		love.graphics.draw(enemyImage, value.x, value.y,enemies[index].angle,1/5,1/5,enemyImage:getHeight(),enemyImage:getWidth()/2)
+		love.graphics.draw(enemyImage, value.x, value.y,enemies[index].angle,1/5,1/5,enemyImage:getHeight()/2,enemyImage:getWidth()/2)
 	end
 
-    lightWorld.drawShadow()
+
 
     print_FPS()
 
@@ -146,10 +162,25 @@ end
 
 function computeAngleEnemies()
 for index,value in ipairs(enemies) do
+	--compute angle of enemies
 	local dx = enemies[index].x - player.x
 	local dy = enemies[index].y - player.y
 	enemies[index].angle = math.atan2(dy,dx)
+
+	--move enemies
+	local vx =  player.x - enemies[index].x
+	local vy =  player.y - enemies[index].y
+	enemies[index].x = enemies[index].x + vx*0.01;
+  	enemies[index].y = enemies[index].y + vy*0.01;
+  	enemies[index].rectangle.setPosition(enemies[index].x,enemies[index].y)
 end
+end
+
+
+function distance ( x1, y1, x2, y2 )
+  local dx = x1 - x2
+  local dy = y1 - y2
+  return math.sqrt ( dx * dx + dy * dy )
 end
 
 function updateMove(key)

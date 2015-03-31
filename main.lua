@@ -4,7 +4,6 @@ require 'libs.light.postshader'
 function love.load()
 	width=love.graphics.getWidth()
 	height=love.graphics.getHeight()
-	cone=0.4
 
 	player = {
 		image = {},
@@ -24,6 +23,9 @@ function love.load()
 
 	lightWorld = love.light.newWorld()
     lightMouse = lightWorld.newLight(0, 0, 255, 255, 255, 300)
+    lightMouse.setAngle(0.5)
+	lightMouse.setRange(100)
+
     setColorOfLight()
     lightMouse.setGlowStrength(0.1) -- optional
 
@@ -90,10 +92,10 @@ function love.draw()
 
     lightWorld.drawShadow()
 
-	love.graphics.draw(player.image, player.x, player.y,player.angle,1/5,1/5,player.image:getHeight(),player.image:getWidth()/2)
+	love.graphics.draw(player.image, player.x, player.y,player.angle,1/6,1/6,player.image:getHeight(),player.image:getWidth()/2)
 
 	for index,value in ipairs(enemies) do
-		love.graphics.draw(enemyImage, value.x, value.y,enemies[index].angle,1/5,1/5,enemyImage:getHeight()/2,enemyImage:getWidth()/2)
+		love.graphics.draw(enemyImage, value.x, value.y,enemies[index].angle,1/2,1/2,enemyImage:getHeight()/2,enemyImage:getWidth()/2)
 	end
 
 
@@ -211,8 +213,6 @@ function love.update(dt)
 	computeAngle()
 	computeAngleEnemies()
 	lightMouse.setPosition(player.x, player.y)
-	lightMouse.setAngle(cone)
-	lightMouse.setRange(100)
 	lightMouse.setDirection(math.pi/2-player.angle)
 	if delta>FLICK then
 		boo=true

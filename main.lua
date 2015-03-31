@@ -1,6 +1,10 @@
 require 'libs.light.light'
 require 'libs.light.postshader'
 
+local anim8 = require 'anim8'
+
+local enemyImage, animation
+
 function love.load()
 	width=love.graphics.getWidth()
 	height=love.graphics.getHeight()
@@ -32,7 +36,9 @@ function love.load()
 	MOVE = { up=false, down=false, left=false, right=false }
 
 	player.image = love.graphics.newImage("images/hand.png")
-	enemyImage = love.graphics.newImage("images/spider.png")
+	enemyImage = love.graphics.newImage("images/spider-sprite2.png")
+	local g = anim8.newGrid(128, 128, enemyImage:getWidth(), enemyImage:getHeight())
+  	animation = anim8.newAnimation(g(1,'1-2'), 0.1)
 
 	enemies= {
 		{
@@ -43,16 +49,10 @@ function love.load()
 		setPosition = function (xNew,yNew)
 			x=xNew
 			y=yNew
-			rectangle.setPosition(xNew,yNew)
+			--rectangle.setPosition(xNew,yNew)
 		end
 	}
 	}
-
-	for index,value in ipairs(enemies) do
-		enemies[index].rectangle=lightWorld.newCircle(enemies[1].x, enemies[1].y, enemyImage:getWidth()/30,enemyImage:getWidth()/30);
-	end
-
-
 
 	boo=false
 	delta=0
@@ -95,7 +95,8 @@ function love.draw()
 	love.graphics.draw(player.image, player.x, player.y,player.angle,1/6,1/6,player.image:getHeight(),player.image:getWidth()/2)
 
 	for index,value in ipairs(enemies) do
-		love.graphics.draw(enemyImage, value.x, value.y,enemies[index].angle,1/2,1/2,enemyImage:getHeight()/2,enemyImage:getWidth()/2)
+		--love.graphics.draw(enemyImage, value.x, value.y,enemies[index].angle,1/2,1/2,enemyImage:getHeight()/2,enemyImage:getWidth()/2)
+		animation:draw(enemyImage, value.x, value.y,enemies[index].angle,1/2,1/2,64,64)
 	end
 
 
@@ -174,7 +175,10 @@ for index,value in ipairs(enemies) do
 	local vy =  player.y - enemies[index].y
 	enemies[index].x = enemies[index].x + vx*0.01;
   	enemies[index].y = enemies[index].y + vy*0.01;
-  	enemies[index].rectangle.setPosition(enemies[index].x,enemies[index].y)
+
+  	if distance(player.x, player.y, enemies[index].x,enemies[index].y)<=32 then
+  		player.dead=true
+  	end
 end
 end
 
@@ -209,6 +213,9 @@ function updateMove(key)
 end
 
 function love.update(dt)
+
+	if not player.dead then
+	animation:update(dt)
 	updateMove(MOVE)
 	computeAngle()
 	computeAngleEnemies()
@@ -221,4 +228,5 @@ function love.update(dt)
 		delta = delta+dt
 		boo=false
 	end
+end
 end

@@ -1,7 +1,7 @@
 require 'libs.light.light'
 require 'libs.light.postshader'
 
-local anim8 = require 'anim8'
+local anim8 = require 'libs.anim8.anim8'
 
 local enemyImage, animation
 
@@ -91,6 +91,10 @@ function love.draw()
     love.graphics.rectangle("fill", 0, 0, width, height)
 
     lightWorld.drawShadow()
+
+    if player.dead then
+		love.graphics.print("Dead!", width/2, height/2)
+	end
 
 	love.graphics.draw(player.image, player.x, player.y,player.angle,1/6,1/6,player.image:getHeight(),player.image:getWidth()/2)
 
